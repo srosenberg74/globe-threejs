@@ -45,8 +45,6 @@ const mouse = new THREE.Vector2()
 
   const intersect = raycaster.intersectObject(globe)
   if(intersect) clickPoint = intersect[0].point
-  console.log(intersect)
-
 
   // let latitude = Math.acos(clickPoint.y / sphereRadius);
   // let longitude = Math.atan(clickPoint.x / clickPoint.z);
@@ -55,6 +53,7 @@ const mouse = new THREE.Vector2()
   // let longitude = Math.atan(clickPoint.x/clickPoint.z)
   // let latitude = Math.asin((clickPoint.y/sphereRadius)*Math.PI/180)
   // let longitude = Math.asin((clickPoint.x/(sphereRadius * Math.cos(latitude)))*Math.PI/180)
+
   const offset = 8;
   const latitude = (90 - (Math.acos(clickPoint.y / sphereRadius)) * 180 / Math.PI) + offset;
   const longitude = (((270 + (Math.atan2(clickPoint.x , clickPoint.z)) * 180 / Math.PI) % 360) - 180) + offset;
@@ -62,9 +61,9 @@ const mouse = new THREE.Vector2()
   
   console.log(latitude, longitude)
 
-  const getCountry = fetch(`http://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},${longitude}&sensor=false`)
-  .then((response) => response.json())
-  .then((data) => console.log(data));
+  // const getCountry = fetch(`http://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},${longitude}&sensor=false`)
+  // .then((response) => response.json())
+  // .then((data) => console.log(data));
 }
 
 window.addEventListener( 'click', onClick );
