@@ -31,7 +31,8 @@ const atmosphereMaterial = new THREE.MeshLambertMaterial({ opacity: .4, transpar
 const atmosphere = new THREE.Mesh(atmosphereGeometry, atmosphereMaterial)
 scene.add(atmosphere)
 
-const sunGeometry = new THREE.SphereGeometry(1000, 50, 50)
+const sunRadius = 1000;
+const sunGeometry = new THREE.SphereGeometry(sunRadius, 50, 50)
 const texture = new THREE.TextureLoader().load("/images/globe3.jpg");
 
 texture.wrapS = THREE.RepeatWrapping;
@@ -87,6 +88,46 @@ function onClick(event) {
   // .then((response) => response.json())
   // .then((data) => console.log(data));
 }
+// const starMaterial = new THREE.MeshBasicMaterial({color: 0xffffff})
+// const starGeometry = new THREE.SphereGeometry(10, 3, 3)
+
+// const generateRandomStarPosition = (range, distanceFromCenter) => {
+//   let randNum = Math.ceil(Math.random() * range) - range/2
+//   while(Math.abs(randNum) < distanceFromCenter){
+//     randNum = Math.ceil(Math.random() * range) - range/2
+//   }
+//   return randNum
+// } 
+
+// for (let i = 0; i < 40; i++){
+
+//   const star = new THREE.Mesh(starGeometry, starMaterial)
+//   star.position.set(generateRandomStarPosition(4000, 800), generateRandomStarPosition(4000, 800), generateRandomStarPosition(400, 0))
+//   scene.add(star)
+//     console.log(star.position)
+// }
+
+const starGeometry = new THREE.BufferGeometry()
+const starMaterial = new THREE.PointsMaterial({
+  color: 0xffffff, sizeAttenuation: false
+})
+
+const starVertices = []
+for (let i = 0; i < 7000; i++) {
+  const x = (Math.random() - 0.5) * 2000
+  const y = (Math.random() - 0.5) * 2000
+  const z = (Math.random() - 0.5) * 2000
+  if(Math.abs(x) < 800 && Math.abs(y)<800 && Math.abs(z)<800) continue
+  starVertices.push(x, y, z)
+}
+
+starGeometry.setAttribute(
+  'position',
+  new THREE.Float32BufferAttribute(starVertices, 3)
+)
+
+const stars = new THREE.Points(starGeometry, starMaterial)
+scene.add(stars)
 
 window.addEventListener("click", onClick);
 window.addEventListener("mousemove", onPointerMove);
@@ -100,6 +141,16 @@ const earthAtmosphere = new THREE.PointLight(0x00d2fc, 200, 14000, 0)
 earthAtmosphere.position.set(globe.position)
 scene.add(earthAtmosphere)
 
+const arrayOfOrbitCoordinates = [];
+let globeX;
+let globeY;
+for(let i=0; i<=360; i++){
+  globeX = ((sunRadius + 600) * Math.cos(i)) - 1600
+  globeY = ((sunRadius + 600) * Math.sin(i)) + 200
+  arrayOfOrbitCoordinates.push(new THREE.Vector3(globeX, 0, globeY))
+}
+console.log(arrayOfOrbitCoordinates)
+
 camera.position.z = 12;
 controls.update();
 // let axisOfRotation = new THREE.Vector3(.2,.2,.2);
@@ -107,6 +158,7 @@ controls.update();
 // let quaternion = new THREE.Quaternion().setFromAxisAngle( axisOfRotation, angleOfRotation );
 // globe.rotation.set( new THREE.Euler().setFromQuaternion( quaternion ) );
 
+let orbitIterator = 0;
 function animate() {
   requestAnimationFrame(animate);
   controls.update();
@@ -114,9 +166,15 @@ function animate() {
   globe.rotation.y += .001
   atmosphere.rotation.y += .0012
   atmosphere.rotation.z += .00018
+  // const { x, y, z } = arrayOfOrbitCoordinates[orbitIterator]
+  // globe.position.set( x, y, z )
+  
 
 }
 animate();
+
+// setInterval(()=>{console.log(orbitIterator, globe.position)
+//   orbitIterator <= 360 ? orbitIterator += 1 : orbitIterator = 0}, 1000)
 
 
 
