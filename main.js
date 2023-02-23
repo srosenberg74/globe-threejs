@@ -83,29 +83,8 @@ function onClick(event) {
 
     console.log(latitude, longitude);
   }
-
-  // const getCountry = fetch(`http://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},${longitude}&sensor=false`)
-  // .then((response) => response.json())
-  // .then((data) => console.log(data));
 }
-// const starMaterial = new THREE.MeshBasicMaterial({color: 0xffffff})
-// const starGeometry = new THREE.SphereGeometry(10, 3, 3)
 
-// const generateRandomStarPosition = (range, distanceFromCenter) => {
-//   let randNum = Math.ceil(Math.random() * range) - range/2
-//   while(Math.abs(randNum) < distanceFromCenter){
-//     randNum = Math.ceil(Math.random() * range) - range/2
-//   }
-//   return randNum
-// } 
-
-// for (let i = 0; i < 40; i++){
-
-//   const star = new THREE.Mesh(starGeometry, starMaterial)
-//   star.position.set(generateRandomStarPosition(4000, 800), generateRandomStarPosition(4000, 800), generateRandomStarPosition(400, 0))
-//   scene.add(star)
-//     console.log(star.position)
-// }
 
 const starGeometry = new THREE.BufferGeometry()
 const starMaterial = new THREE.PointsMaterial({
@@ -153,10 +132,6 @@ console.log(arrayOfOrbitCoordinates)
 
 camera.position.z = 12;
 controls.update();
-// let axisOfRotation = new THREE.Vector3(.2,.2,.2);
-// let angleOfRotation = 1.2
-// let quaternion = new THREE.Quaternion().setFromAxisAngle( axisOfRotation, angleOfRotation );
-// globe.rotation.set( new THREE.Euler().setFromQuaternion( quaternion ) );
 
 let orbitIterator = 0;
 function animate() {
@@ -166,22 +141,5 @@ function animate() {
   globe.rotation.y += .001
   atmosphere.rotation.y += .0012
   atmosphere.rotation.z += .00018
-  // const { x, y, z } = arrayOfOrbitCoordinates[orbitIterator]
-  // globe.position.set( x, y, z )
-  
-
 }
 animate();
-
-// setInterval(()=>{console.log(orbitIterator, globe.position)
-//   orbitIterator <= 360 ? orbitIterator += 1 : orbitIterator = 0}, 1000)
-
-
-
-    // let latitude = Math.acos(clickPoint.y / sphereRadius);
-    // let longitude = Math.atan(clickPoint.x / clickPoint.z);
-
-    // let latitude = Math.acos(clickPoint.y/sphereRadius)
-    // let longitude = Math.atan(clickPoint.x/clickPoint.z)
-    // let latitude = Math.asin((clickPoint.y/sphereRadius)*Math.PI/180)
-    // let longitude = Math.asin((clickPoint.x/(sphereRadius * Math.cos(latitude)))*Math.PI/180)
